@@ -1,0 +1,112 @@
+body {
+    display: flex;
+    height: 100vh;
+    background-image:url('UMC 뭔가 간지나는 배경1 2.svg');
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-form {
+    background: rgba(195, 195, 211, 0.6);
+    display: flex;
+    width: 50%;
+    height: 80%;
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-title{
+    margin-top: 10%;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.line{
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.inputs{
+    color: white;
+}
+
+.text-field{
+    font-size: 14px;
+    width: 95%;
+    background-color: transparent;
+    border: 1px solid white;
+    box-shadow: none;
+    outline: 0;
+    padding : 2.5%;
+    border-radius: 6px;
+}
+
+#submit-btn {
+    font-size : 22px;
+    color : #fff;
+    background-color: black;
+    width: 100%;
+    border-radius: 5px;
+    border : none;
+}
+
+#submit-btn:disabled {
+  margin-top: 10px;
+  background-color: gray;
+}
+
+.warning{
+    font-size: 12px;
+    color:red;
+    margin-bottom: 4%;
+    height: 17px;
+}
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal {
+    background: white;
+    padding: 22px 12px;
+    border-radius: 30px;
+    width: 30%;
+    height: 25%;
+  }
+
+  .modal-center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .modal-success {
+    margin-top: 9%;
+    font-size: 35px;
+    font-weight: bold;
+  }
+
+  .content{
+    margin-top: 6%;
+  }
+  
+#close {
+  border-radius: 4px;
+}
+
+  .close-wrapper {
+    margin-top: 3%;
+    margin-right: 8%;
+    text-align: right;
+  }
