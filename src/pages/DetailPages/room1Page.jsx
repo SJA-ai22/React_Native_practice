@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const Room1 = () => {
-  const [seats, setSeats] = useState(Array(20).fill(false));
+  const seatsPerRow = 6;
+  const totalRows = 7;
+  const totalSeats = seatsPerRow * totalRows;
+
+  const [seats, setSeats] = useState(Array(totalSeats).fill(false));
 
   const handleSeatReservation = (index) => {
     const updatedSeats = [...seats];
@@ -10,18 +14,41 @@ const Room1 = () => {
     setSeats(updatedSeats);
   };
 
+  const renderSeats = () => {
+    const seatRows = [];
+    for (let i = 0; i < totalRows; i++) {
+      const seatRow = [];
+      for (let j = 0; j < seatsPerRow; j++) {
+        const index = i * seatsPerRow + j;
+        seatRow.push(
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.seatContainer,
+              { backgroundColor: seats[index] ? 'red' : 'green' },
+            ]}
+            onPress={() => handleSeatReservation(index)}
+          >
+            <Text style={styles.seatNumber}>{index + 1}</Text>
+            <Text style={styles.reservationText}>
+              {seats[index] ? '예약 취소' : '예약'}
+            </Text>
+          </TouchableOpacity>
+        );
+      }
+      seatRows.push(
+        <View key={i} style={styles.seatRow}>
+          {seatRow}
+        </View>
+      );
+    }
+    return seatRows;
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>제 1열람실</Text>
-      {seats.map((isReserved, index) => (
-        <View key={index} style={styles.seatContainer}>
-          <Text style={styles.seatNumber}>{index + 1}</Text>
-          <Button
-            title={isReserved ? '예약 취소' : '예약'}
-            onPress={() => handleSeatReservation(index)}
-          />
-        </View>
-      ))}
+      {renderSeats()}
     </View>
   );
 };
@@ -38,13 +65,25 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   seatContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
+    borderRadius: 8,
+    margin: 2,
   },
   seatNumber: {
     fontSize: 18,
+    color: 'white',
+  },
+  reservationText: {
+    fontSize: 12,
+    color: 'white',
+  },
+  seatRow: {
+    flexDirection: 'row',
+    marginBottom: 8,
   },
 });
 

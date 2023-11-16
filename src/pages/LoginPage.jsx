@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -18,8 +18,8 @@ const LoginPage = ({ navigation }) => {
   };
 
   const buttonStyle = email_check(email) && password_check(password)
-    ? { backgroundColor: '#152536' }
-    : { backgroundColor: 'gray' };
+    ? { color: 'black', fontSize: 17, backgroundColor: '#9EA4AA', padding: 10}
+    : { color: 'gray', fontSize: 17, backgroundColor: '#9EA4AA', padding: 10};
 
   const handleLogin = () => {
     if (email_check(email) && password_check(password)) {
@@ -59,7 +59,9 @@ const LoginPage = ({ navigation }) => {
           <Text style={{ color: 'red' }}>비밀번호 형식이 올바르지 않습니다.</Text>
         )}
       </View>
-      <Button style={{buttonStyle}} title="확인" onPress={handleLogin} />
+      <TouchableOpacity style={styles.submit_wrap} onPress={handleLogin}>
+        <Text style={[styles.submit_btn, buttonStyle]}>확인</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -69,8 +71,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100,
     backgroundColor: 'white',
+    paddingBottom: 100,
   },
   title: {
     fontSize: 30,
@@ -88,6 +90,12 @@ const styles = StyleSheet.create({
   warning: {
     marginBottom: 20,
   },
+  submit_wrap: {
+    width: 100,
+  },
+  submit_btn: {
+    textAlign: 'center',
+  }
 });
 
 export default LoginPage;

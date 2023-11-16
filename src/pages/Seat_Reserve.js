@@ -27,11 +27,19 @@ const ReservationPage = ({ navigation }) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      marginBottom: 100,
     },
     title: {
       fontSize: 24,
       marginBottom: 16,
     },
+    room: {
+      width: 200,
+      height: 120,
+    },
+    room_btn: {
+      textAlign: 'center',
+    }
   });
 
   export default ReservationPage;

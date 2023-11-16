@@ -37,11 +37,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    backgroundColor: 'white',
+    paddingBottom: 100,
   },
   title: {
     fontSize: 24,
-    marginBottom: 16,
+    marginBottom: 30,
   },
 });
 
