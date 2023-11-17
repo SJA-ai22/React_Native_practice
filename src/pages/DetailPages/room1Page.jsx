@@ -7,11 +7,21 @@ const Room1 = () => {
   const totalSeats = seatsPerRow * totalRows;
 
   const [seats, setSeats] = useState(Array(totalSeats).fill(false));
+  const [selectedSeat, setSelectedSeat] = useState(null);
 
   const handleSeatReservation = (index) => {
-    const updatedSeats = [...seats];
-    updatedSeats[index] = !updatedSeats[index];
-    setSeats(updatedSeats);
+    if (selectedSeat === null) {
+      const updatedSeats = [...seats];
+      updatedSeats[index] = !updatedSeats[index];
+      setSeats(updatedSeats);
+      setSelectedSeat(index);
+    } else if (selectedSeat === index) {
+      // If the selected seat is pressed again, cancel the reservation
+      const updatedSeats = [...seats];
+      updatedSeats[index] = !updatedSeats[index];
+      setSeats(updatedSeats);
+      setSelectedSeat(null);
+    }
   };
 
   const renderSeats = () => {
@@ -28,6 +38,7 @@ const Room1 = () => {
               { backgroundColor: seats[index] ? 'red' : 'green' },
             ]}
             onPress={() => handleSeatReservation(index)}
+            disabled={selectedSeat !== null && selectedSeat !== index}
           >
             <Text style={styles.seatNumber}>{index + 1}</Text>
             <Text style={styles.reservationText}>

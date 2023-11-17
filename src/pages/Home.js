@@ -7,13 +7,11 @@ const HomePage = ({ navigation }) => {
   };
 
   const handleMyPlace = () => {
-    // 내 자리 페이지로 이동
-    // navigation.navigate('MyPlace');
+    navigation.navigate('MySeat');
   };
 
   const handleLibraryCard = () => {
-    // 도서관 모바일 이용증 페이지로 이동
-    // navigation.navigate('LibraryCard');
+    navigation.navigate('LibraryCard');
   };
 
   const handleAnnouncements = () => {
