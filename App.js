@@ -7,6 +7,7 @@ import ReservationPage from './src/pages/Seat_Reserve';
 import Room1 from './src/pages/DetailPages/room1Page';
 import MySeat from './src/pages/MySeat';
 import LibraryCard from './src/pages/LibraryCard';
+import GroupRoom from './src/pages/GroupRoom';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const App = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name='ReservePage' component={ReservationPage}/>
+        <Stack.Screen name='GroupRoom' component={GroupRoom}/>
         <Stack.Screen name='MySeat' component={MySeat}/>
         <Stack.Screen name='LibraryCard' component={LibraryCard}/>
         <Stack.Screen name="room1" component={Room1} />

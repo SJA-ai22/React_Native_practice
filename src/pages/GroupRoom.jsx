@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const LibraryCard = () => {
+const GroupRoom = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>도서관 모바일 이용증 페이지</Text>
+      <Text style={styles.title}>그룹 스터디실</Text>
     </View>
   );
 };
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LibraryCard;
+export default GroupRoom;
