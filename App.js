@@ -8,21 +8,24 @@ import Room1 from './src/pages/DetailPages/room1Page';
 import MySeat from './src/pages/MySeat';
 import LibraryCard from './src/pages/LibraryCard';
 import GroupRoom from './src/pages/GroupRoom';
+import { SeatProvider } from './src/pages/DetailPages/SeatControl';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="HomePage" component={HomePage} />
-        <Stack.Screen name='ReservePage' component={ReservationPage}/>
-        <Stack.Screen name='GroupRoom' component={GroupRoom}/>
-        <Stack.Screen name='MySeat' component={MySeat}/>
-        <Stack.Screen name='LibraryCard' component={LibraryCard}/>
-        <Stack.Screen name="room1" component={Room1} />
-      </Stack.Navigator>
+      <SeatProvider>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="HomePage" component={HomePage} />
+          <Stack.Screen name='ReservePage' component={ReservationPage}/>
+          <Stack.Screen name='GroupRoom' component={GroupRoom}/>
+          <Stack.Screen name='MySeat' component={MySeat}/>
+          <Stack.Screen name='LibraryCard' component={LibraryCard}/>
+          <Stack.Screen name="room1" component={Room1} />
+        </Stack.Navigator>
+      </SeatProvider>
     </NavigationContainer>
   );
 };

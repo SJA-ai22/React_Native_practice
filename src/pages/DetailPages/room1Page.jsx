@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useSeatControl } from './SeatControl';
 
 const Room1 = () => {
   const seatsPerRow = 6;
   const totalRows = 7;
-  const totalSeats = seatsPerRow * totalRows;
 
-  const [seats, setSeats] = useState(Array(totalSeats).fill(false));
+  const { seats, setSeats } = useSeatControl();
   const [selectedSeat, setSelectedSeat] = useState(null);
 
   const handleSeatReservation = (index) => {
@@ -16,7 +16,6 @@ const Room1 = () => {
       setSeats(updatedSeats);
       setSelectedSeat(index);
     } else if (selectedSeat === index) {
-      // If the selected seat is pressed again, cancel the reservation
       const updatedSeats = [...seats];
       updatedSeats[index] = !updatedSeats[index];
       setSeats(updatedSeats);
@@ -63,6 +62,7 @@ const Room1 = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
