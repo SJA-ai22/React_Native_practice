@@ -5,6 +5,7 @@ import { useSeatControl } from './SeatControl';
 const Room1 = () => {
   const seatsPerRow = 6;
   const totalRows = 7;
+  //SeatControl에서 위 행,열 개수에 맞게 수정
 
   const { seats, setSeats } = useSeatControl();
   const [selectedSeat, setSelectedSeat] = useState(null);
