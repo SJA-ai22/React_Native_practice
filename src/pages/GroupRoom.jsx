@@ -6,14 +6,45 @@ const GroupRoom = () => {
   const [selectedTime, setSelectedTime] = useState(null);
 
   const studyRooms = Array.from({ length: 6 }, (_, index) => index + 1);
-  const timeSlots = Array.from({ length: 22 * 2 }, (_, index) => index * 30 + 13 * 60); // 13:00부터 24:00까지 30분 간격으로 22개의 슬롯
+  // 13:00부터 24:00까지 30분 간격으로 23개의 슬롯
+  const timeSlots = Array.from({ length: 23 }, (_, index) => index * 30 + 13 * 60);
 
   const handleRoomSelection = (room) => {
     setSelectedRoom(room);
   };
 
   const handleTimeSelection = (time) => {
-    setSelectedTime(time);
+    const selectedIndex = timeSlots.indexOf(time);
+    if (!selectedRoom) {
+      alert('스터디실을 먼저 선택하세요.');
+      return;
+    }
+    else{
+      if (selectedIndex !== -1) {
+        if (selectedTime && selectedTime.length > 0) {
+          const start = selectedTime[0];
+          const end = time;
+          if (selectedTime[0] === time) {
+            setSelectedTime(null);
+          } 
+          if (end > start) {
+            const range = timeSlots.slice(timeSlots.indexOf(start), timeSlots.indexOf(end) + 1);
+
+            if (range.length <= 6) {
+                setSelectedTime(range);
+            } 
+            else {
+              alert('최대 3시간만 선택 가능합니다.');
+            }
+          } 
+          else {
+            alert('시작 시간보다 나중 시간을 선택하세요.');
+          }
+        } else {
+          setSelectedTime([time]);
+        }
+      }
+    }
   };
 
   return (
@@ -39,9 +70,8 @@ const GroupRoom = () => {
           {timeSlots.map((time) => (
             <TouchableOpacity
               key={time}
-              style={[styles.timeButton, selectedTime === time && styles.selectedTime]}
-              onPress={() => handleTimeSelection(time)}
-            >
+              style={[styles.timeButton, selectedTime && selectedTime.includes(time) && styles.selectedTime]}
+              onPress={() => handleTimeSelection(time)}>
               <Text style={styles.timeText}>{`${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, '0')}`}</Text>
             </TouchableOpacity>
           ))}
@@ -49,7 +79,7 @@ const GroupRoom = () => {
       </ScrollView>
 
       <Text style={styles.selectedInfo}>
-        {selectedRoom && selectedTime && `선택된 스터디실: ${selectedRoom}실, 선택된 시간: ${Math.floor(selectedTime / 60)}시 ${selectedTime % 60}분`}
+        {selectedRoom && selectedTime &&  `스터디실: ${selectedRoom}실,  예약 시간: ${Math.floor(selectedTime[0] / 60)}시 ${selectedTime[0] % 60}분 - ${Math.floor(selectedTime[selectedTime.length - 1] / 60)}시 ${selectedTime[selectedTime.length - 1] % 60}분`}
       </Text>
     </View>
   );
