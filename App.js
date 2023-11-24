@@ -5,6 +5,8 @@ import LoginScreen from './src/pages/LoginPage';
 import HomePage from './src/pages/Home';
 import ReservationPage from './src/pages/Seat_Reserve';
 import Room1 from './src/pages/DetailPages/room1Page';
+import Room2 from './src/pages/DetailPages/room2Page';
+import Room3 from './src/pages/DetailPages/room3Page';
 import MySeat from './src/pages/MySeat';
 import LibraryCard from './src/pages/LibraryCard';
 import GroupRoom from './src/pages/GroupRoom';
@@ -24,6 +26,8 @@ const App = () => {
           <Stack.Screen name='MySeat' component={MySeat}/>
           <Stack.Screen name='LibraryCard' component={LibraryCard}/>
           <Stack.Screen name="room1" component={Room1} />
+          <Stack.Screen name="room2" component={Room2} />
+          <Stack.Screen name="room3" component={Room3} />
         </Stack.Navigator>
       </SeatProvider>
     </NavigationContainer>

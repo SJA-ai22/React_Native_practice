@@ -6,10 +6,10 @@ const ReservationPage = ({ navigation }) => {
       navigation.navigate('room1');
     };
     const handle_Reservation2 = () => {
-        navigation.navigate('room1');
+        navigation.navigate('room2');
     };
     const handle_Reservation3 = () => {
-      navigation.navigate('room1');
+      navigation.navigate('room3');
     };
     
     return (

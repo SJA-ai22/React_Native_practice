@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Button } from 'react-native';
 import { useSeatControl } from './SeatControl';
 
-const Room1 = () => {
+const Room2 = () => {
   const seatsPerRow = 6;
-  const totalRows = 7;
+  const totalRows = 5;
 
   const { seats, setSeats } = useSeatControl();
   const [selectedSeat, setSelectedSeat] = useState(null);
@@ -175,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Room1;
+export default Room2;
