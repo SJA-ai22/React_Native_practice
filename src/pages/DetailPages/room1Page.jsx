@@ -6,7 +6,7 @@ const Room1 = () => {
   const seatsPerRow = 6;
   const totalRows = 7;
 
-  const { seats, setSeats } = useSeatControl();
+  const { room1Seats, setRoom1Seats, selectedSeatInfo, setSelectedSeatInfo } = useSeatControl();
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [seatNumberInput, setSeatNumberInput] = useState('');
@@ -14,14 +14,17 @@ const Room1 = () => {
 
   const handleSeatReservation = (index) => {
     if (selectedSeat === null) {
-      const updatedSeats = [...seats];
+      const updatedSeats = [...room1Seats];
       updatedSeats[index] = !updatedSeats[index];
-      setSeats(updatedSeats);
+      setRoom1Seats(updatedSeats);
+      setSelectedSeatInfo({ room: '제 1열람실', seat: index + 1 });
       setSelectedSeat(index);
-    } else if (selectedSeat === index) {
-      const updatedSeats = [...seats];
+    } 
+    else if (selectedSeat === index) {
+      const updatedSeats = [...room1Seats];
       updatedSeats[index] = !updatedSeats[index];
-      setSeats(updatedSeats);
+      setRoom1Seats(updatedSeats);
+      setSelectedSeatInfo(null);
       setSelectedSeat(null);
     }
   };
@@ -34,8 +37,6 @@ const Room1 = () => {
     // Handle the report confirmation logic here
     console.log('Seat Number:', seatNumberInput);
     console.log('Report Reason:', reportReasonInput);
-
-    // Close the modal
     setReportModalVisible(false);
   };
 
@@ -50,14 +51,14 @@ const Room1 = () => {
             key={index}
             style={[
               styles.seatContainer,
-              { backgroundColor: seats[index] ? 'red' : 'green' },
+              { backgroundColor: room1Seats[index] ? 'red' : 'green' },
             ]}
             onPress={() => handleSeatReservation(index)}
             disabled={selectedSeat !== null && selectedSeat !== index}
           >
             <Text style={styles.seatNumber}>{index + 1}</Text>
             <Text style={styles.reservationText}>
-              {seats[index] ? '예약 취소' : '예약'}
+              {room1Seats[index] ? '예약 취소' : '예약'}
             </Text>
           </TouchableOpacity>
         );
