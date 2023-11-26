@@ -2,27 +2,25 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 const LoginPage = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+  const [infoId, setInfoId] = useState('');
   const [password, setPassword] = useState('');
 
-  const email_check = (e) => {
-    const regex =
-      /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    return e !== '' && e !== 'undefined' && regex.test(e);
+  const infoIdCheck = (id) => {
+    return id !== '' && id.length >= 5;
   };
 
-  const password_check = (e) => {
-    const regex =
-      /^[A-Za-z0-9`~!@#\$%\^&*(){}[\]_=\+\\|;:'"<>,./?]{5,20}$/;
-    return e !== '' && e !== 'undefined' && regex.test(e);
+  const passwordCheck = (pw) => {
+    // Your existing password validation logic remains the same
+    const regex = /^[A-Za-z0-9`~!@#\$%\^&*(){}[\]_=\+\\|;:'"<>,./?]{5,20}$/;
+    return pw !== '' && pw !== 'undefined' && regex.test(pw);
   };
 
-  const buttonStyle = email_check(email) && password_check(password)
-    ? { color: 'black', fontSize: 17, backgroundColor: '#9EA4AA', padding: 10}
-    : { color: 'gray', fontSize: 17, backgroundColor: '#9EA4AA', padding: 10};
+  const buttonStyle = infoIdCheck(infoId) && passwordCheck(password)
+    ? { color: 'black', fontSize: 17, backgroundColor: '#9EA4AA', padding: 10 }
+    : { color: 'gray', fontSize: 17, backgroundColor: '#9EA4AA', padding: 10 };
 
   const handleLogin = () => {
-    if (email_check(email) && password_check(password)) {
+    if (infoIdCheck(infoId) && passwordCheck(password)) {
       navigation.navigate('HomePage');
     } else {
       alert('로그인 실패');
@@ -34,15 +32,15 @@ const LoginPage = ({ navigation }) => {
       <Text style={styles.title}>로그인</Text>
       <TextInput
         style={styles.input}
-        placeholder="이메일"
-        value={email}
-        onChangeText={setEmail}
+        placeholder="인포 ID"
+        value={infoId}
+        onChangeText={setInfoId}
       />
       <View style={styles.warning}>
-        {email_check(email) ? (
-          <Text style={{ color: 'green' }}>이메일 형식이 올바릅니다</Text>
+        {infoIdCheck(infoId) ? (
+          <Text style={{ color: 'green' }}>ID 형식이 올바릅니다</Text>
         ) : (
-          <Text style={{ color: 'red' }}>올바른 이메일을 입력해주세요.</Text>
+          <Text style={{ color: 'red' }}>올바른 ID를 입력해주세요.</Text>
         )}
       </View>
       <TextInput
@@ -53,7 +51,7 @@ const LoginPage = ({ navigation }) => {
         onChangeText={setPassword}
       />
       <View style={styles.warning}>
-        {password_check(password) ? (
+        {passwordCheck(password) ? (
           <Text style={{ color: 'green' }}>비밀번호 형식이 올바릅니다</Text>
         ) : (
           <Text style={{ color: 'red' }}>비밀번호 형식이 올바르지 않습니다.</Text>
