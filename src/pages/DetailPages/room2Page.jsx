@@ -13,7 +13,7 @@ const Room2 = () => {
   const [reportReasonInput, setReportReasonInput] = useState('');
 
   const handleSeatReservation = (index) => {
-    if (selectedSeat === null) {
+    if (selectedSeat === null ||selectedSeatInfo.room === '제 1열람실' || selectedSeatInfo.room === '제 3열람실') {
       const updatedSeats = [...room2Seats];
       updatedSeats[index] = !updatedSeats[index];
       setRoom2Seats(updatedSeats);
@@ -27,8 +27,8 @@ const Room2 = () => {
       setSelectedSeatInfo(null);
       setSelectedSeat(null);
     }
+    console.log(selectedSeatInfo);
   };
-
 
   const handleReport = () => {
     setReportModalVisible(true);
@@ -79,7 +79,7 @@ const Room2 = () => {
         <Text style={styles.reportButtonText}>신고</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>제 1열람실</Text>
+      <Text style={styles.title}>제 2열람실</Text>
       {renderSeats()}
 
       <Modal

@@ -13,7 +13,7 @@ const Room1 = () => {
   const [reportReasonInput, setReportReasonInput] = useState('');
 
   const handleSeatReservation = (index) => {
-    if (selectedSeat === null) {
+    if (selectedSeat === null ||selectedSeatInfo.room === '제 2열람실' || selectedSeatInfo.room === '제 3열람실') {
       const updatedSeats = [...room1Seats];
       updatedSeats[index] = !updatedSeats[index];
       setRoom1Seats(updatedSeats);
@@ -27,6 +27,7 @@ const Room1 = () => {
       setSelectedSeatInfo(null);
       setSelectedSeat(null);
     }
+    console.log(selectedSeatInfo);
   };
 
   const handleReport = () => {
