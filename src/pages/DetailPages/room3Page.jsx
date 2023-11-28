@@ -6,14 +6,13 @@ const Room3 = () => {
   const seatsPerRow = 5;
   const totalRows = 6;
 
-  const { room3Seats, setRoom3Seats, selectedSeatInfo, setSelectedSeatInfo } = useSeatControl();
-  const [selectedSeat, setSelectedSeat] = useState(null);
+  const { room3Seats, setRoom3Seats, selectedSeatInfo, setSelectedSeatInfo, selectedSeat, setSelectedSeat } = useSeatControl();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [seatNumberInput, setSeatNumberInput] = useState('');
   const [reportReasonInput, setReportReasonInput] = useState('');
 
   const handleSeatReservation = (index) => {
-    if (selectedSeat === null ||selectedSeatInfo.room === '제 1열람실' || selectedSeatInfo.room === '제 2열람실') {
+    if (selectedSeat === null) {
       const updatedSeats = [...room3Seats];
       updatedSeats[index] = !updatedSeats[index];
       setRoom3Seats(updatedSeats);
@@ -27,6 +26,7 @@ const Room3 = () => {
       setSelectedSeatInfo(null);
       setSelectedSeat(null);
     }
+    console.log(selectedSeat);
     console.log(selectedSeatInfo);
   };
 

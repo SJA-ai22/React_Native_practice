@@ -8,6 +8,7 @@ export const SeatProvider = ({ children }) => {
   const [room3Seats, setRoom3Seats] = useState(Array(30).fill(false));
 
   const [selectedSeatInfo, setSelectedSeatInfo] = useState(null);
+  const [selectedSeat, setSelectedSeat] = useState(null);
 
   const controlValue = {
     room1Seats,
@@ -18,6 +19,8 @@ export const SeatProvider = ({ children }) => {
     setRoom3Seats,
     selectedSeatInfo,
     setSelectedSeatInfo,
+    selectedSeat,
+    setSelectedSeat,
   };
 
   return (
