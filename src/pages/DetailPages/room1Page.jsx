@@ -26,8 +26,6 @@ const Room1 = () => {
       setSelectedSeatInfo(null);
       setSelectedSeat(null);
     }
-    console.log(selectedSeat);
-    console.log(selectedSeatInfo);
   };
 
   const handleReport = () => {
@@ -35,7 +33,6 @@ const Room1 = () => {
   };
 
   const handleReportConfirmation = () => {
-    // Handle the report confirmation logic here
     console.log('Seat Number:', seatNumberInput);
     console.log('Report Reason:', reportReasonInput);
     setReportModalVisible(false);
