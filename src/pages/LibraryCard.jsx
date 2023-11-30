@@ -10,12 +10,12 @@ const LibraryCard = () => {
 
   const handleLeave = () => {
     // 외출 버튼 눌렀을 때 실행되는 로직
-    setModalVisible(!isModalVisible);
+    toggleModal();
   };
 
   const handleCheckOut = () => {
     // 퇴실 버튼 눌렀을 때 실행되는 로직
-    setModalVisible(!isModalVisible);
+    toggleModal();
   };
 
   return (

@@ -11,6 +11,7 @@ import MySeat from './src/pages/MySeat';
 import LibraryCard from './src/pages/LibraryCard';
 import GroupRoom from './src/pages/GroupRoom';
 import { SeatProvider } from './src/pages/DetailPages/SeatControl';
+import SetTimer from './src/pages/Timer';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ const App = () => {
           <Stack.Screen name="room1" component={Room1} />
           <Stack.Screen name="room2" component={Room2} />
           <Stack.Screen name="room3" component={Room3} />
+          <Stack.Screen name="timer" component={SetTimer}/>
         </Stack.Navigator>
       </SeatProvider>
     </NavigationContainer>
