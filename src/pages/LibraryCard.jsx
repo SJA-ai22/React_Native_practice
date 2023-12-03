@@ -1,21 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 
 const LibraryCard = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(true);
+  const [timerVisible, setTimerVisible] = useState(false);
+  const [timer, setTimer] = useState(7220); // 2 hours in seconds
+  const [timerIntervalId, setTimerIntervalId] = useState(null);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
+  const toggleLeaveReturn = () => {
+    setIsLeaving(!isLeaving);
+    setTimerVisible(false);
+    clearTimer();
+  };
+
   const handleLeave = () => {
-    // 외출 버튼 눌렀을 때 실행되는 로직
+    toggleLeaveReturn();
     toggleModal();
+    if (isLeaving) {
+      setTimerVisible(true);
+      startTimer();
+    } else {
+      resetTimer();
+    }
+  };
+  
+  const resetTimer = () => {
+    setTimer(7200);
+    setTimerVisible(false);
+    clearTimer();
   };
 
   const handleCheckOut = () => {
-    // 퇴실 버튼 눌렀을 때 실행되는 로직
+    toggleLeaveReturn();
     toggleModal();
+  };
+
+  const startTimer = () => {
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => prevTimer - 1);
+    }, 1000);
+    setTimerIntervalId(intervalId);
+  };
+
+  const clearTimer = () => {
+    clearInterval(timerIntervalId);
+    setTimerIntervalId(null);
+  };
+
+  useEffect(() => {
+    if (timer === 0) {
+      setTimerVisible(false);
+      clearTimer();
+    }
+  }, [timer]);
+
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
   return (
@@ -26,6 +74,8 @@ const LibraryCard = () => {
         <Text style={styles.buttonText}>QR</Text>
       </TouchableOpacity>
 
+      {timerVisible && <Text style={styles.timerText}>복귀 예정 시간: {formatTime(timer)}</Text>}
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -35,7 +85,7 @@ const LibraryCard = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity onPress={handleLeave} style={styles.modalButton}>
-              <Text style={styles.buttonText}>외출</Text>
+              <Text style={styles.buttonText}>{isLeaving ? '외출' : '복귀'}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={handleCheckOut} style={styles.modalButton}>
@@ -50,6 +100,12 @@ const LibraryCard = () => {
       </Modal>
     </View>
   );
+};
+
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 };
 
 const styles = StyleSheet.create({
@@ -110,6 +166,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     textAlign: 'center',
+  },
+  timerText: {
+    marginTop: 20,
+    fontSize: 26,
+    color: 'gray',
   },
 });
 
