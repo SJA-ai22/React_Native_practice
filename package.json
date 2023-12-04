@@ -20,7 +20,8 @@
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-webview": "13.2.2",
     "react-router-dom": "^6.18.0",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "expo-location": "~16.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

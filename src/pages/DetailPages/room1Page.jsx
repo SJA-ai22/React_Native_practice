@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Button } from 'react-native';
 import { useSeatControl } from './SeatControl';
+import * as Location from 'expo-location';
 
 const Room1 = () => {
   const seatsPerRow = 6;
@@ -10,18 +11,47 @@ const Room1 = () => {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [seatNumberInput, setSeatNumberInput] = useState('');
   const [reportReasonInput, setReportReasonInput] = useState('');
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    // 위치 권한 요청
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('위치 권한이 거부되었습니다.');
+        return;
+      }
+
+      // 위치 정보 가져오기
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  // 도서관 좌표
+  const targetRegion = {
+    latitude: 37.236816, // 위도
+    longitude: 127.073321, // 경도
+  };
+
+  // 도서관을 벗어날 때의 조건
+  const isOutsideTargetRegion =
+    location &&
+    (location.coords.latitude < targetRegion.latitude - 0.001 ||
+      location.coords.latitude > targetRegion.latitude + 0.001 ||
+      location.coords.longitude < targetRegion.longitude - 0.001 ||
+      location.coords.longitude > targetRegion.longitude + 0.001);
 
   const handleSeatReservation = (index) => {
-    if (selectedSeat === null) {
+    if (selectedSeat === null && !room1Seats[index]) {
       const updatedSeats = [...room1Seats];
-      updatedSeats[index] = !updatedSeats[index];
+      updatedSeats[index] = true;
       setRoom1Seats(updatedSeats);
       setSelectedSeatInfo({ room: '제 1열람실', seat: index + 1 });
       setSelectedSeat(index);
-    } 
-    else if (selectedSeat === index) {
+    } else if (selectedSeat === index) {
       const updatedSeats = [...room1Seats];
-      updatedSeats[index] = !updatedSeats[index];
+      updatedSeats[index] = false;
       setRoom1Seats(updatedSeats);
       setSelectedSeatInfo(null);
       setSelectedSeat(null);
@@ -104,10 +134,15 @@ const Room1 = () => {
           </View>
         </View>
       </Modal>
+
+      {isOutsideTargetRegion && selectedSeatInfo !== null && (
+        <View style={styles.warning_wrap}>
+          <Text style={styles.warning}>도서관을 벗어났습니다!</Text>
+        </View>
+      )}
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -171,6 +206,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 8,
+  },
+  warning_wrap:{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'black',
+  },
+  warning: {
+    color: 'red',
+    fontSize: 30,
   },
 });
 
