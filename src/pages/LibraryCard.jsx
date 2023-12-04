@@ -5,7 +5,7 @@ const LibraryCard = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLeaving, setIsLeaving] = useState(true);
   const [timerVisible, setTimerVisible] = useState(false);
-  const [timer, setTimer] = useState(7220); // 2 hours in seconds
+  const [timer, setTimer] = useState(7200); // 2 hours in seconds
   const [timerIntervalId, setTimerIntervalId] = useState(null);
 
   const toggleModal = () => {
