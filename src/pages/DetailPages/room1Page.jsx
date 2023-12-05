@@ -28,10 +28,10 @@ const Room1 = () => {
     })();
   }, []);
 
-  // 도서관 좌표
+  // 전자정보대학 좌표
   const targetRegion = {
-    latitude: 37.236816, // 위도
-    longitude: 127.073321, // 경도
+    latitude: 37.239522, // 위도
+    longitude: 127.083350, // 경도
   };
 
   // 도서관을 벗어날 때의 조건
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
       bottom: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'black',
+      backgroundColor: 'white',
   },
   warning: {
     color: 'red',
