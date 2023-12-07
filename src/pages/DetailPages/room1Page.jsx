@@ -12,6 +12,8 @@ const Room1 = () => {
   const [seatNumberInput, setSeatNumberInput] = useState('');
   const [reportReasonInput, setReportReasonInput] = useState('');
   const [location, setLocation] = useState(null);
+  const [remainingTimes, setRemainingTimes] = useState(Array(totalRows * seatsPerRow).fill(null));
+  const [remainingTimeModalVisible, setRemainingTimeModalVisible] = useState(false);
 
   useEffect(() => {
     // 위치 권한 요청
@@ -68,6 +70,54 @@ const Room1 = () => {
     setReportModalVisible(false);
   };
 
+  const handleRemainingTime = () => {
+    // Display the remaining time for specific seats in the modal
+    setRemainingTimeModalVisible(true);
+  };
+
+  const handleCloseRemainingTimeModal = () => {
+    // Close the modal
+    setRemainingTimeModalVisible(false);
+  };
+
+  const renderRemainingTimeModal = () => {
+
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={remainingTimeModalVisible}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.Time_modalContent}>
+            <Text style={{fontSize: 20}}>잔여 시간</Text>
+              <View style={styles.remainingTimeRow}>
+                <Text>13번:</Text>
+                <Text>2분 04초</Text>
+              </View>
+              <View style={styles.remainingTimeRow}>
+                <Text>7번:</Text>
+                <Text>3분 40초</Text>
+              </View>
+              <View style={styles.remainingTimeRow}>
+                <Text>32번:</Text>
+                <Text>14분 27초</Text>
+              </View>
+              <View style={styles.remainingTimeRow}>
+                <Text>23번:</Text>
+                <Text>17분 25초</Text>
+              </View>
+              <View style={styles.remainingTimeRow}>
+                <Text>19번:</Text>
+                <Text>21분 34초</Text>
+              </View>
+            <Button title="닫기" onPress={handleCloseRemainingTimeModal} />
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   const renderSeats = () => {
     const seatRows = [];
     for (let i = 0; i < totalRows; i++) {
@@ -106,8 +156,13 @@ const Room1 = () => {
         <Text style={styles.reportButtonText}>신고</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.timeButton} onPress={handleRemainingTime}>
+        <Text style={styles.timeButtonText}>좌석별 잔여시간</Text>
+      </TouchableOpacity>
+
       <Text style={styles.title}>제 1열람실</Text>
       {renderSeats()}
+      {renderRemainingTimeModal()}
 
       <Modal
         animationType="slide"
@@ -188,6 +243,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
   },
+  timeButton: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    backgroundColor: 'gray',
+    padding: 10,
+    borderRadius: 8,
+  },
+  timeButtonText: {
+    fontSize: 16,
+    color: 'white',
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -207,19 +274,31 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 8,
   },
-  warning_wrap:{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'white',
+  warning_wrap: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   warning: {
     color: 'red',
     fontSize: 30,
+  },
+  Time_modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 8,
+    width: '60%',
+  },
+  remainingTimeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+    marginBottom: 3,
   },
 });
 
