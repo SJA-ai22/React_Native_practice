@@ -34,6 +34,7 @@ const Room1 = () => {
     useState(false);
   const [timer, setTimer] = useState(null);
   const [showExtensionButton, setShowExtensionButton] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
   useEffect(() => {
     // 위치 권한 요청
@@ -78,6 +79,9 @@ const Room1 = () => {
         setTimer((prevTimer) => {
           if (prevTimer > 0) {
             setShowExtensionButton(prevTimer <= 59 * 60);
+            if (prevTimer === 59 * 60) {
+              setShowWarningModal(true);
+            }
             return prevTimer - 1;
           } else {
             return null;
@@ -85,7 +89,7 @@ const Room1 = () => {
         });
       }, 1000);
     }
-
+  
     return () => {
       clearInterval(interval);
     };
@@ -141,14 +145,57 @@ const Room1 = () => {
   };
 
   const renderRemainingTimeModal = () => {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={remainingTimeModalVisible}
-      >
-      </Modal>
-    );
+    if (showWarningModal) {
+      return (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.Time_modalContent}>
+              <Text>잔여시간이 59분 이하입니다.</Text>
+              <Button title="확인" onPress={() => setShowWarningModal(false)} />
+            </View>
+          </View>
+        </Modal>
+      );
+    } else {
+      return (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={remainingTimeModalVisible}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.Time_modalContent}>
+              <Text style={{fontSize: 20}}>잔여 시간</Text>
+                <View style={styles.remainingTimeRow}>
+                  <Text>13번:</Text>
+                  <Text>2분 04초</Text>
+                </View>
+                <View style={styles.remainingTimeRow}>
+                  <Text>7번:</Text>
+                  <Text>3분 40초</Text>
+                </View>
+                <View style={styles.remainingTimeRow}>
+                  <Text>32번:</Text>
+                  <Text>14분 27초</Text>
+                </View>
+                <View style={styles.remainingTimeRow}>
+                  <Text>23번:</Text>
+                  <Text>17분 25초</Text>
+                </View>
+                <View style={styles.remainingTimeRow}>
+                  <Text>19번:</Text>
+                  <Text>21분 34초</Text>
+                </View>
+              <Button title="닫기" onPress={handleCloseRemainingTimeModal} />
+            </View>
+          </View>
+        </Modal>
+      );
+    }
   };
 
   const renderSeats = () => {

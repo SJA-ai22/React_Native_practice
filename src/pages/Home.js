@@ -29,7 +29,6 @@ const HomePage = ({ navigation }) => {
       <Button title="그룹 스터디실" onPress={handelGroupRoom} />
       <Button title="내 자리" onPress={handleMyPlace} />
       <Button title="도서관 모바일 이용증" onPress={handleLibraryCard} />
-      <Button title="잔여 시간" onPress={handleTimer} />
     </View>
   );
 };
