@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Button } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  TextInput,
+  Button,
+} from 'react-native';
 import { useSeatControl } from './SeatControl';
 import * as Location from 'expo-location';
 
@@ -7,13 +15,25 @@ const Room1 = () => {
   const seatsPerRow = 6;
   const totalRows = 7;
 
-  const { room1Seats, setRoom1Seats, selectedSeatInfo, setSelectedSeatInfo, selectedSeat, setSelectedSeat } = useSeatControl();
+  const {
+    room1Seats,
+    setRoom1Seats,
+    selectedSeatInfo,
+    setSelectedSeatInfo,
+    selectedSeat,
+    setSelectedSeat,
+  } = useSeatControl();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [seatNumberInput, setSeatNumberInput] = useState('');
   const [reportReasonInput, setReportReasonInput] = useState('');
   const [location, setLocation] = useState(null);
-  const [remainingTimes, setRemainingTimes] = useState(Array(totalRows * seatsPerRow).fill(null));
-  const [remainingTimeModalVisible, setRemainingTimeModalVisible] = useState(false);
+  const [remainingTimes, setRemainingTimes] = useState(
+    Array(totalRows * seatsPerRow).fill(null)
+  );
+  const [remainingTimeModalVisible, setRemainingTimeModalVisible] =
+    useState(false);
+  const [timer, setTimer] = useState(null);
+  const [showExtensionButton, setShowExtensionButton] = useState(false);
 
   useEffect(() => {
     // 위치 권한 요청
@@ -30,19 +50,54 @@ const Room1 = () => {
     })();
   }, []);
 
-  // 전자정보대학 좌표
   const targetRegion = {
     latitude: 37.239522, // 위도
     longitude: 127.083350, // 경도
   };
 
-  // 도서관을 벗어날 때의 조건
   const isOutsideTargetRegion =
     location &&
     (location.coords.latitude < targetRegion.latitude - 0.001 ||
       location.coords.latitude > targetRegion.latitude + 0.001 ||
       location.coords.longitude < targetRegion.longitude - 0.001 ||
       location.coords.longitude > targetRegion.longitude + 0.001);
+
+  const startTimer = () => {
+    setTimer(1 * 60 * 60); // 1 hour in seconds
+  };
+
+  const resetTimer = () => {
+    setTimer(null);
+    setShowExtensionButton(false);
+  };
+
+  useEffect(() => {
+    let interval;
+    if (timer !== null) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer > 0) {
+            setShowExtensionButton(prevTimer <= 59 * 60);
+            return prevTimer - 1;
+          } else {
+            return null;
+          }
+        });
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [timer]);
+
+  useEffect(() => {
+    if (timer === 0) {
+      resetTimer();
+      setSelectedSeatInfo(null);
+      setSelectedSeat(null);
+    }
+  }, [timer]);
 
   const handleSeatReservation = (index) => {
     if (selectedSeat === null && !room1Seats[index]) {
@@ -51,10 +106,12 @@ const Room1 = () => {
       setRoom1Seats(updatedSeats);
       setSelectedSeatInfo({ room: '제 1열람실', seat: index + 1 });
       setSelectedSeat(index);
+      startTimer(); // Start the timer when a seat is reserved
     } else if (selectedSeat === index) {
       const updatedSeats = [...room1Seats];
       updatedSeats[index] = false;
       setRoom1Seats(updatedSeats);
+      resetTimer(); // Reset the timer when the reservation is canceled
       setSelectedSeatInfo(null);
       setSelectedSeat(null);
     }
@@ -71,49 +128,25 @@ const Room1 = () => {
   };
 
   const handleRemainingTime = () => {
-    // Display the remaining time for specific seats in the modal
     setRemainingTimeModalVisible(true);
   };
 
   const handleCloseRemainingTimeModal = () => {
-    // Close the modal
     setRemainingTimeModalVisible(false);
   };
 
-  const renderRemainingTimeModal = () => {
+  const handleExtension = () => {
+    startTimer(); // Reset the timer to 1 hour
+    setShowExtensionButton(false); // Hide the extension button
+  };
 
+  const renderRemainingTimeModal = () => {
     return (
       <Modal
         animationType="slide"
         transparent={true}
         visible={remainingTimeModalVisible}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.Time_modalContent}>
-            <Text style={{fontSize: 20}}>잔여 시간</Text>
-              <View style={styles.remainingTimeRow}>
-                <Text>13번:</Text>
-                <Text>2분 04초</Text>
-              </View>
-              <View style={styles.remainingTimeRow}>
-                <Text>7번:</Text>
-                <Text>3분 40초</Text>
-              </View>
-              <View style={styles.remainingTimeRow}>
-                <Text>32번:</Text>
-                <Text>14분 27초</Text>
-              </View>
-              <View style={styles.remainingTimeRow}>
-                <Text>23번:</Text>
-                <Text>17분 25초</Text>
-              </View>
-              <View style={styles.remainingTimeRow}>
-                <Text>19번:</Text>
-                <Text>21분 34초</Text>
-              </View>
-            <Button title="닫기" onPress={handleCloseRemainingTimeModal} />
-          </View>
-        </View>
       </Modal>
     );
   };
@@ -163,6 +196,20 @@ const Room1 = () => {
       <Text style={styles.title}>제 1열람실</Text>
       {renderSeats()}
       {renderRemainingTimeModal()}
+      {timer !== null && (
+        <View style={styles.timerContainer}>
+          <Text style={styles.timerText}>
+            {`잔여시간: ${Math.floor(timer / 3600)}시간 ${Math.floor(
+              (timer % 3600) / 60
+            )}분 ${timer % 60}초`}
+          </Text>
+          {showExtensionButton && (
+            <TouchableOpacity style={styles.extensionButton} onPress={handleExtension}>
+              <Text style={styles.extensionButtonText}>연장</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
 
       <Modal
         animationType="slide"
@@ -300,6 +347,26 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 3,
   },
+  timerContainer: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  timerText: {
+    fontSize: 20,
+    color: 'black',
+  },
+  extensionButton: {
+    width: 100,
+    alignItems: 'center',
+    backgroundColor: 'black',
+    marginTop: 20,
+    borderRadius: 5,
+  },
+  extensionButtonText: {
+    fontSize: 20,
+    color: 'white',
+    padding: 10,
+  }
 });
 
 export default Room1;
