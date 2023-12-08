@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Modal,
-  TextInput,
-  Button,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Button, } from 'react-native';
 import { useSeatControl } from './SeatControl';
 import * as Location from 'expo-location';
 
@@ -15,23 +7,13 @@ const Room1 = () => {
   const seatsPerRow = 6;
   const totalRows = 7;
 
-  const {
-    room1Seats,
-    setRoom1Seats,
-    selectedSeatInfo,
-    setSelectedSeatInfo,
-    selectedSeat,
-    setSelectedSeat,
-  } = useSeatControl();
+  const {room1Seats,setRoom1Seats,selectedSeatInfo,setSelectedSeatInfo,selectedSeat,setSelectedSeat,} = useSeatControl();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [seatNumberInput, setSeatNumberInput] = useState('');
   const [reportReasonInput, setReportReasonInput] = useState('');
   const [location, setLocation] = useState(null);
-  const [remainingTimes, setRemainingTimes] = useState(
-    Array(totalRows * seatsPerRow).fill(null)
-  );
-  const [remainingTimeModalVisible, setRemainingTimeModalVisible] =
-    useState(false);
+  const [remainingTimes, setRemainingTimes] = useState(Array(totalRows * seatsPerRow).fill(null));
+  const [remainingTimeModalVisible, setRemainingTimeModalVisible] = useState(false);
   const [timer, setTimer] = useState(null);
   const [showExtensionButton, setShowExtensionButton] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);

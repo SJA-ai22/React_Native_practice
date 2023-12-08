@@ -19,15 +19,15 @@ const App = () => {
     <NavigationContainer>
       <SeatProvider>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="HomePage" component={HomePage} />
+          <Stack.Screen name="Login" component={LoginScreen}/>
+          <Stack.Screen name="HomePage" component={HomePage}/>
           <Stack.Screen name='ReservePage' component={ReservationPage}/>
           <Stack.Screen name='GroupRoom' component={GroupRoom}/>
           <Stack.Screen name='MySeat' component={MySeat}/>
           <Stack.Screen name='LibraryCard' component={LibraryCard}/>
-          <Stack.Screen name="room1" component={Room1} />
-          <Stack.Screen name="room2" component={Room2} />
-          <Stack.Screen name="room3" component={Room3} />
+          <Stack.Screen name="room1" component={Room1}/>
+          <Stack.Screen name="room2" component={Room2}/>
+          <Stack.Screen name="room3" component={Room3}/>
         </Stack.Navigator>
       </SeatProvider>
     </NavigationContainer>
