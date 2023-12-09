@@ -11,16 +11,11 @@ export const SeatProvider = ({ children }) => {
   const [selectedSeat, setSelectedSeat] = useState(null);
 
   const controlValue = {
-    room1Seats,
-    setRoom1Seats,
-    room2Seats,
-    setRoom2Seats,
-    room3Seats,
-    setRoom3Seats,
-    selectedSeatInfo,
-    setSelectedSeatInfo,
-    selectedSeat,
-    setSelectedSeat,
+    room1Seats,setRoom1Seats,
+    room2Seats,setRoom2Seats,
+    room3Seats,setRoom3Seats,
+    selectedSeatInfo,setSelectedSeatInfo,
+    selectedSeat,setSelectedSeat,
   };
 
   return (
